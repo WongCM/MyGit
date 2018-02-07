@@ -9,7 +9,6 @@ def FixImage(img):
 
     If max_width and/or max_height are supplied (pixels as int), the image is proportionally downsized to fit the tighter of the two constraints using a high-quality downsampling filter.
     '''
-
     ORIENT = { # exif_val: (rotate degrees cw, mirror 0=no 1=horiz 2=vert); see http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html
               2: (0, 1),
               3: (180, 0),
@@ -37,13 +36,15 @@ def FixImage(img):
         elif mirror == 2:
             img = img.transpose(Image.FLIP_TOP_BOTTOM)
 
+
     # strip image
-    data = img.getdata()
-    palette = img.getpalette()
-    img = Image.new(img.mode, img.size)
-    img.putdata(data)
-    if palette:
-        img.putpalette(palette)
+    # data = img.getdata()
+    # palette = img.getpalette()
+    # img = Image.new(img.mode, img.size)
+    # img.putdata(data)
+    # if palette:
+    #     img.putpalette(palette)
+
 
     # resize image (if necessary):
     # (width, height) = img.size
@@ -53,6 +54,8 @@ def FixImage(img):
     #     img = img.resize((round(width*max_height/height), max_height), Image.LANCZOS)
 
     img.format = img_format # preserve orig format
+
+
     return img
 
 if __name__ == "__main__": # run this script as-is for a basic test
