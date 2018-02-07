@@ -79,22 +79,35 @@ def FixImage2(img):
     return img
 
 if __name__ == '__main__':
-    print 'begin now'
+    print 'begin now 正在预处理 请稍等......'
 
-    picInPath = '/Users/apple/Downloads/2018-02-05/PicAdjustTest/'
-    picToPath = '/Users/apple/Downloads/2018-02-05/PicAdjustTestTo/'
+    picInPath = '/Users/apple/Downloads/2018-02-07/VideoFrom/'
+    picToPath = '/Users/apple/Downloads/2018-02-07/VideoTo/'
 
     # nowNum用来计数当前处理了几次
     nowNum = 1
+    # allNum用来计算总次数
+    allNum = 0
 
     listLength = len(os.listdir(picInPath))
+
+    # 计算总处理次数
+    for i in os.listdir(picInPath):
+        if i == '.DS_Store':
+            continue
+        j = picInPath + i + '/'
+        allNum = allNum + len(os.listdir(j)) - 1
+        print os.listdir(j)
+    
+    print '共需要处理' + str(allNum) + '次'
 
     for i in os.listdir(picInPath):
         # j为PicAdjustTest文件夹下的子文件夹路径
         j = picInPath + i + '/'
         if i == '.DS_Store':
             continue
-        newFolder = '/Users/apple/Downloads/2018-02-05/PicAdjustTestTo/' + i
+        # newFolder = '/Users/apple/Downloads/2018-02-06/Feb6Fixed/' + i
+        newFolder = picToPath + i
         isExists=os.path.exists(newFolder)
         if not isExists:
             os.makedirs(newFolder)
@@ -106,11 +119,18 @@ if __name__ == '__main__':
             if x == '.DS_Store':
                 continue
             if os.path.splitext(x)[1] == '.MOV':
+                # 如果是视频，则进行复制操作chutil.copy(source, destination)
+                shutil.copy(picInPath + i + '/' + os.path.splitext(x)[0] + os.path.splitext(x)[1], picToPath + i + '/' + x)
+                print '共需要处理' + str(allNum) + '次，现在是第' + str(nowNum) + '次'
+                nowNum = nowNum + 1
+                continue
+            if os.path.splitext(x)[1] == '.db':
                 continue
             print x
             shuchulujin = picToPath + i + '/' + x
             print shuchulujin
-            print '共需要处理' + str((listLength-1)*(listLengthJ-1)) + '次，现在是第' + str(nowNum) + '次'
+            # print '共需要处理' + str((listLength-1)*(listLengthJ-1)) + '次，现在是第' + str(nowNum) + '次'
+            print '共需要处理' + str(allNum) + '次，现在是第' + str(nowNum) + '次'
             nowNum = nowNum + 1
             # print '---->' + os.path.splitext(x)[1]
             str1 = picInPath + i + '/' + os.path.splitext(x)[0] + os.path.splitext(x)[1]
